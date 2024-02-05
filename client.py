@@ -16,6 +16,7 @@ while not wlan.isconnected() and wlan.status() >= 0:
  
 # Should be connected and have an IP address
 wlan.status() # 3 == success
+print(wlan.status())
 wlan.ifconfig()
 print(wlan.ifconfig())
 
@@ -30,17 +31,6 @@ while True:
     ss=str(s.recv(512)) # Store reply
     # Print what we received
     print(ss)
-    # Split into RGB components
-    l = len(ss)
-    ss = ss[2:l-1]     # Strip to essentials  
-    p = ss.find(",")   # Find first comma
-    r = int(ss[0:p])   # Extract RED value
-    ss = ss[p+1:]      # Remove red part
-    p = ss.find(",")   # Find comma separator
-    g = int(ss[0:p])   # Extract GREEN value
-    b = int(ss[p+1:])  # Extract BLUE value
-    print(r,g,b)       # Print RGB values
     print()
-    # Set RGB LED here
     s.close()          # Close socket
     time.sleep(0.2)    # wait

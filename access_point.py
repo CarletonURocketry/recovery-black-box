@@ -4,11 +4,10 @@ import network
 import socket
 import time
 from machine import Pin, ADC
-import shared
-import random
+from shared import SSID, PASSWORD
 
 wlan: network.WLAN = network.WLAN(network.AP_IF)
-wlan.config(ssid=shared.SSID, key=shared.PASSWORD, pm=wlan.PM_NONE)
+wlan.config(ssid=SSID, key=PASSWORD, pm=wlan.PM_NONE)
 wlan.active(True)
 
 # Wait for connect or fail
@@ -29,7 +28,7 @@ else:
     print('ip = ' + status[0])
 
 # Open socket
-addr = socket.getaddrinfo('0.0.0.0', 80)[0][-1]
+addr = socket.getaddrinfo('192.168.4.1', 80)[0][-1]
 
 s = socket.socket()
 s.bind(addr)
@@ -47,16 +46,9 @@ while True:
         # Do not unpack request
         # We reply to any request the same way
         # Generate 3 values to send back
-        r = random.randint(0, 255)
-        g = random.randint(0, 255)
-        b = random.randint(0, 255)
-        # Join to make a simple string with commas as separators
-        rgb = str(r) + "," + str(g) + "," + str(b)
 
-        response = rgb  # This is what we send in reply
-
-        cl.send(response)
-        print("Sent:" + rgb)
+        cl.send("test")
+        print("Sent:")
         cl.close()
 
     except OSError as e:
